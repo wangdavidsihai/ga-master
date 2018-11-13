@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="head"></div>
+<!-- DataTables -->
+<link rel="stylesheet"
+	href="../plugins/datatables/dataTables.bootstrap.css" />
+<title>Menu Management</title>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini ">
+	<div class="wrapper">
+
+		<div th:replace="header"></div>
+		<div th:replace="sidebar"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="row">
+					<div class="col-xs-12">
+
+						<div class="box">
+							<div class="box-header">
+								<a th:href="@{/menu/form}" title="Add Level 1 Menu"><span
+									class="glyphicon glyphicon-plus"></span></a>
+							</div>
+
+							<div class="box-body">
+								<table id="dataTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Label</th>
+											<th>url</th>
+											<th>Sequence</th>
+											<th>Status</th>
+											<th style="text-align: center">Switch Status</th>
+											<th>Add Sub Menu</th>
+											<th>Edit</th>
+											<th style="text-align: center">Delete</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="item:${list}">
+											<td th:text="${item.id}">ID</td>
+											<td th:text="${item.label}">Label</td>
+											<td th:text="${item.url}">url</td>
+											<td th:text="${item.order}">Sequence</td>
+											<td th:text="${item.disabled}?'Enabled':'Disabled'"
+												id="status">Status</td>
+											<td style="text-align: center"><span name="lock"
+												title="Switch Status"
+												th:data="@{/menu/{id}/status(disable=${!item.disabled},id=${item.id})}"
+												style="cursor: pointer" class="glyphicon glyphicon-lock"></span>
+
+											</td>
+											<td><a href=""
+												th:href="@{/menu/form/(id=${item.path}+','+${item.id},parent=true)}">Add
+													item</a></td>
+											<td style="text-align: center"><a
+												th:href="@{/menu/form(id=${item.id})}"><span
+													class="glyphicon glyphicon-edit" title="Edit"></span></a></td>
+											<td style="text-align: center"><span name="trash"
+												title="Delete" th:data="@{/menu/{id}/delete(id=${item.id})}"
+												style="cursor: pointer" class="glyphicon glyphicon-trash"></span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!-- /.col -->
+				</div>
+
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+
+	</div>
+
+	<div th:replace="script"></div>
+
+	<!-- page script -->
+	<script>
+		$(function() {
+			$('#dataTable').DataTable({
+				"paging" : true,
+				"lengthChange" : false,
+				"searching" : false,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : false
+			});
+		});
+	</script>
+	<script th:src="@{/js/list-page.js}"></script>
+</body>
+</html>

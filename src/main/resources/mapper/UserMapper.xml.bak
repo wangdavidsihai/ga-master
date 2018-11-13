@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scb.ga.dao.mybatis.UserDao">
+	<resultMap id="userMap" type="com.scb.ga.domain.User">
+		<id property="id" column="ID" />
+		<result property="username" column="USERNAME" />
+		<result property="password" column="PASSWORD" />
+	</resultMap>
+	<select id="findByUserName" parameterType="String" resultMap="userMap">
+		SELECT u.*
+		FROM User u
+		WHERE username= #{username}
+	</select>
+</mapper>
